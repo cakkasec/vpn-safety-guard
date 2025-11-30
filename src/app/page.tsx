@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ShieldCheck } from 'lucide-react';
 
 import { LogoutButton } from '@/components/LogoutButton';
+import { VPNKnowledgeBase } from '@/components/VPNKnowledgeBase';
 
 export default function Home() {
   return (
@@ -40,8 +41,11 @@ export default function Home() {
             </div>
           </TabsContent>
 
+          {/* ... inside Home component ... */}
+
           <TabsContent value="analyzer" className="animate-in fade-in-50">
-            <div className="max-w-2xl mx-auto">
+            <div className="grid gap-6 md:grid-cols-2">
+              <VPNKnowledgeBase />
               <ProtocolAnalyzer />
             </div>
           </TabsContent>
