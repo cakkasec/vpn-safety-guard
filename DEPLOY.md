@@ -15,13 +15,17 @@ Vercel is the creators of Next.js and the easiest place to deploy this app.
 
 ## 2. Managing Users
 
-Currently, the app supports a single admin user via environment variables.
+### Single User (Simple)
+Set `AUTH_USER` and `AUTH_PASS` in Vercel Environment Variables.
 
-To change the password:
-1.  Go to your Vercel Project Dashboard.
-2.  Go to **Settings** -> **Environment Variables**.
-3.  Edit `AUTH_PASS` and save.
-4.  Redeploy the app (or it might update automatically).
+### Multiple Users (Advanced)
+To add multiple users, add a new Environment Variable called `AUTH_USERS`.
+**Format**: `username:password,username2:password2`
+
+**Example**:
+`AUTH_USERS` = `alice:secret123,bob:secure456`
+
+(Note: Use a comma `,` to separate users and a colon `:` to separate username and password).
 
 ## 3. Running Locally
 

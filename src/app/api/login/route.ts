@@ -10,13 +10,32 @@ export async function POST(request: Request) {
     // Format: USER1=pass1,USER2=pass2
     // For this demo, we'll use a simple env var check.
 
-    const validUser = process.env.AUTH_USER || 'admin';
-    const validPass = process.env.AUTH_PASS || 'password123';
+    const validUser = process.env.AUTH_USER;
+    const validPass = process.env.AUTH_PASS;
 
-    // Support multiple users via comma separation if needed in future, 
-    // but for now simple 1:1 match.
+    // New: Support multiple users via AUTH_USERS="user1:pass1,user2:pass2"
+    const multiUsers = process.env.AUTH_USERS || '';
 
-    if (username === validUser && password === validPass) {
+    let isValid = false;
+
+    // Check legacy single user
+    if (validUser && validPass && username === validUser && password === validPass) {
+        isValid = true;
+    }
+
+    // Check multiple users
+    if (!isValid && multiUsers) {
+        const users = multiUsers.split(',').map(u => u.trim());
+        for (const u of users) {
+            const [uName, uPass] = u.split(':');
+            if (uName === username && uPass === password) {
+                isValid = true;
+                break;
+            }
+        }
+    }
+
+    if (isValid) {
         // Set a cookie
         const cookieStore = await cookies();
         cookieStore.set('auth_token', 'valid_session', {
