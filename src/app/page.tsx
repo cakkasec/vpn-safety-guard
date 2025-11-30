@@ -6,6 +6,8 @@ import { SafetyGuide } from '@/components/SafetyGuide';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ShieldCheck } from 'lucide-react';
 
+import { LogoutButton } from '@/components/LogoutButton';
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-background p-4 md:p-8">
@@ -20,6 +22,7 @@ export default function Home() {
               <p className="text-muted-foreground">Security analysis tool for Myanmar</p>
             </div>
           </div>
+          <LogoutButton />
         </header>
 
         <Tabs defaultValue="dashboard" className="space-y-6">
