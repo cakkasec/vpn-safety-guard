@@ -8,6 +8,7 @@ import { ShieldCheck } from 'lucide-react';
 
 import { LogoutButton } from '@/components/LogoutButton';
 import { VPNKnowledgeBase } from '@/components/VPNKnowledgeBase';
+import { CensorshipCheck } from '@/components/CensorshipCheck';
 
 export default function Home() {
   return (
@@ -33,10 +34,15 @@ export default function Home() {
             <TabsTrigger value="guide">Safety Guide</TabsTrigger>
           </TabsList>
 
+          {/* ... inside Home component ... */}
+
           <TabsContent value="dashboard" className="space-y-6 animate-in fade-in-50">
             <div className="grid gap-6 md:grid-cols-2">
               <div className="md:col-span-2">
                 <LeakTest />
+              </div>
+              <div className="md:col-span-2">
+                <CensorshipCheck />
               </div>
             </div>
           </TabsContent>
