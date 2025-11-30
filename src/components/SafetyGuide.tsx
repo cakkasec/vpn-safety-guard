@@ -67,7 +67,7 @@ export function SafetyGuide() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <ul className="list-disc list-inside space-y-2 text-sm">
-                        <li><strong>Psiphon</strong>: Good for simple bypass, but can be slow.</li>
+                        <li><strong>Outline VPN</strong>: Easy to set up your own server. Hard to detect.</li>
                         <li><strong>Orbot (Tor)</strong>: High anonymity, use with Bridges.</li>
                         <li><strong>v2rayNG / V2Box</strong>: Best for advanced users using V2Ray.</li>
                         <li><strong>Signal</strong>: For encrypted messaging.</li>
