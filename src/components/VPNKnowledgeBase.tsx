@@ -109,6 +109,37 @@ const vpnDatabase: VPNApp[] = [
         risk: 'UNSAFE',
         protocol: 'Unknown',
         advice: 'Cyber Guardian says: ❌ Generic free VPN. High risk of logging and tracking.'
+    },
+    // Added from Community Database (Google Sheet)
+    {
+        name: 'Secure VPN',
+        risk: 'UNSAFE',
+        protocol: 'Unknown',
+        advice: 'Cyber Guardian says: ❌ High Risk. Contains advertising trackers (Flurry, Google Ads) and logs location data.'
+    },
+    {
+        name: 'VPN Satoshi',
+        risk: 'UNSAFE',
+        protocol: 'Unknown',
+        advice: 'Cyber Guardian says: ❌ DANGEROUS. Reads phone state and installed packages. Contains Facebook and Yandex trackers.'
+    },
+    {
+        name: 'VPN Super Unlimited',
+        risk: 'UNSAFE',
+        protocol: 'Unknown',
+        advice: 'Cyber Guardian says: ❌ AVOID. Contains multiple trackers (Facebook, IronSource). Logs network operator and phone type.'
+    },
+    {
+        name: 'Rabbit VPN',
+        risk: 'UNSAFE',
+        protocol: 'Unknown',
+        advice: 'Cyber Guardian says: ❌ Likely unsafe. Free VPNs usually monetize your data.'
+    },
+    {
+        name: 'Snap VPN',
+        risk: 'UNSAFE',
+        protocol: 'Unknown',
+        advice: 'Cyber Guardian says: ❌ High risk of logging. Contains advertising SDKs.'
     }
 ];
 
