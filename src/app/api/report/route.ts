@@ -9,19 +9,19 @@ export async function POST(request: Request) {
         const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfljCctg9O0D0PNF2ts_Obk7QnXkyCTc9F6qU91diTwSK0cig/formResponse';
 
         // Map fields to Entry IDs
-        // Extracted IDs:
-        // Protocol: 1535917215
-        // Region: 1943863405
-        // ISP: 1431149095
-        // Internet Type: 722440215
-        // Contact: 309637191
+        // Correct IDs from FB_PUBLIC_LOAD_DATA_ (Inner IDs for dropdowns)
+        // Protocol: 1112616887 (was 1535917215)
+        // Region: 422315446 (was 1943863405)
+        // ISP: 1164622647 (was 1431149095)
+        // Internet Type: 1479097968 (was 722440215)
+        // Contact: 1723458574 (was 309637191)
 
         const formData = new URLSearchParams();
-        formData.append('entry.1535917215', protocol);
-        formData.append('entry.1943863405', region);
-        formData.append('entry.1431149095', isp);
-        formData.append('entry.722440215', internetType);
-        formData.append('entry.309637191', contact || '');
+        formData.append('entry.1112616887', protocol);
+        formData.append('entry.422315446', region);
+        formData.append('entry.1164622647', isp);
+        formData.append('entry.1479097968', internetType);
+        formData.append('entry.1723458574', contact || '');
 
         // Send to Google Forms
         const response = await fetch(FORM_URL, {
