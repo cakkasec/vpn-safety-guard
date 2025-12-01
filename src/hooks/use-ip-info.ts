@@ -18,16 +18,35 @@ export function useIPInfo() {
         setLoading(true);
         setError(null);
         try {
-            // Using ipapi.co as it provides good location data
-            // In production, we might want a fallback or a paid API key
+            // Try Primary API (ipapi.co)
             const response = await fetch('https://ipapi.co/json/');
-            if (!response.ok) {
-                throw new Error('Failed to fetch IP info');
+            if (response.ok) {
+                const data = await response.json();
+                setIpInfo(data);
+                return;
             }
-            const data = await response.json();
-            setIpInfo(data);
+            throw new Error('Primary API failed');
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Unknown error');
+            console.warn('Primary IP API failed, trying fallback...', err);
+            try {
+                // Try Fallback API (ipwho.is) - Free, no key, no HTTPS restriction usually
+                const fallbackResponse = await fetch('https://ipwho.is/');
+                if (!fallbackResponse.ok) throw new Error('Fallback API failed');
+
+                const data = await fallbackResponse.json();
+                if (!data.success) throw new Error(data.message || 'Fallback API error');
+
+                // Map ipwho.is response to our interface
+                setIpInfo({
+                    ip: data.ip,
+                    city: data.city,
+                    region: data.region,
+                    country_name: data.country,
+                    org: data.connection?.isp || data.connection?.org || 'Unknown ISP'
+                });
+            } catch (fallbackErr) {
+                setError('Could not detect IP. Service might be blocked.');
+            }
         } finally {
             setLoading(false);
         }
