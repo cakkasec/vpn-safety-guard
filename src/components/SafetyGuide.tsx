@@ -57,6 +57,30 @@ export function SafetyGuide() {
                                 Never use public Wi-Fi (cafes, hotels) without a VPN. These networks are often monitored. If your VPN fails to connect on public Wi-Fi, do not proceed with sensitive activities.
                             </AccordionContent>
                         </AccordionItem>
+                        <AccordionItem value="item-5">
+                            <AccordionTrigger>
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-4 text-pink-500">🏥</div>
+                                    Spring Security Clinic
+                                </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="space-y-4">
+                                <p className="font-medium text-primary">ဒစ်ဂျစ်တယ်လုံခြုံရေး ဆေးခန်း</p>
+                                <p>🔹ဆေးခန်းပြဖို့ မကြောက်နဲ့၊ ဆေးမမှီမှာသာ စိုးရိမ်ပါဗျို့။</p>
+                                <p>🔹 ကိုယ့်လူတို့ရဲ့ ဒစ်ဂျစ်တယ်လုံခြုံရေးပြဿနာတွေကို ၂၄ နာရီလုံး အခမဲ့ ဖြေရှင်းပေးနေတာမို့ ဆေးခန်းကိုသာ အပြေးလှမ်းလာလိုက်ပါတော့။</p>
+                                <p>🔻လုံခြုံရေးအတွက် ဘယ်သူမှန်းမသိနိုင်အောင် Telegram ကနေသာမေးခွန်းတွေ လက်ခံပေးနေပါတယ်။</p>
+                                <div className="pt-2">
+                                    <a
+                                        href="https://t.me/SpringSecClinic"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 text-blue-400 hover:underline"
+                                    >
+                                        🏪 Telegram ဆေးခန်း အကောင့် - https://t.me/SpringSecClinic
+                                    </a>
+                                </div>
+                            </AccordionContent>
+                        </AccordionItem>
                     </Accordion>
                 </CardContent>
             </Card>

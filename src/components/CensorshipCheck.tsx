@@ -38,62 +38,51 @@ const BLOCKED_SITES = [
 
 export function CensorshipCheck() {
     const [results, setResults] = useState<SiteStatus[]>([]);
-    const [testing, setTesting] = useState(false);
+    const [running, setRunning] = useState(false);
+
+    // Initialize results when component mounts or BLOCKED_SITES changes
+    useEffect(() => {
+        setResults(BLOCKED_SITES.map(s => ({ ...s, status: 'PENDING' })));
+    }, []);
 
     const runTest = async () => {
-        setTesting(true);
-        const newResults: SiteStatus[] = BLOCKED_SITES.map(s => ({ ...s, status: 'PENDING' }));
-        setResults(newResults);
+        setRunning(true);
+        // Reset results to 'CHECKING' (visually represented as PENDING/Loader)
+        setResults(prev => prev.map(r => ({ ...r, status: 'PENDING' })));
 
-        // We use a Promise.all to run checks in parallel
-        const checks = BLOCKED_SITES.map(async (site, index) => {
-            return new Promise<void>((resolve) => {
-                const img = new Image();
-                const timeout = setTimeout(() => {
-                    // Timeout implies blocked or very slow
-                    setResults(prev => {
-                        const next = [...prev];
-                        next[index].status = 'BLOCKED';
-                        return next;
-                    });
-                    resolve();
-                }, 5000); // 5 second timeout
+        const checkSite = async (site: typeof BLOCKED_SITES[0], index: number) => {
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
 
-                img.onload = () => {
-                    clearTimeout(timeout);
-                    setResults(prev => {
-                        const next = [...prev];
-                        next[index].status = 'ACCESSIBLE';
-                        return next;
-                    });
-                    resolve();
-                };
+                // Use fetch with no-cors mode. 
+                // This allows us to "ping" the server even if it doesn't send CORS headers.
+                // An opaque response (status 0) means the connection was successful (DNS + TCP + SSL).
+                // A network error (catch block) usually means connection failed (Blocked/Timeout).
+                await fetch(site.url, {
+                    mode: 'no-cors',
+                    signal: controller.signal,
+                    cache: 'no-store'
+                });
 
-                img.onerror = () => {
-                    clearTimeout(timeout);
-                    // On error, it might be blocked OR just a CORS error that prevents reading, 
-                    // but usually for favicons it works if accessible. 
-                    // However, strict blocking usually results in a timeout or connection reset.
-                    // If we get an immediate error, it might be accessible but blocking the image load.
-                    // For this simple test, we'll assume success if we get a response (even error) vs timeout,
-                    // BUT usually blocked sites just time out or fail DNS.
-                    // Let's be conservative: if it fails to load, we mark as blocked/warning.
-                    // Actually, for favicons, if they are blocked, they won't load.
-                    setResults(prev => {
-                        const next = [...prev];
-                        next[index].status = 'BLOCKED';
-                        return next;
-                    });
-                    resolve();
-                };
+                clearTimeout(timeoutId);
+                setResults(prev => {
+                    const next = [...prev];
+                    next[index].status = 'ACCESSIBLE';
+                    return next;
+                });
+            } catch (error) {
+                setResults(prev => {
+                    const next = [...prev];
+                    next[index].status = 'BLOCKED';
+                    return next;
+                });
+            }
+        };
 
-                // Add a random param to avoid caching
-                img.src = `${site.testImage}?t=${Date.now()}`;
-            });
-        });
-
-        await Promise.all(checks);
-        setTesting(false);
+        // Run checks in parallel
+        await Promise.all(BLOCKED_SITES.map((site, index) => checkSite(site, index)));
+        setRunning(false);
     };
 
     return (
@@ -109,21 +98,21 @@ export function CensorshipCheck() {
             </CardHeader>
             <CardContent className="space-y-6">
                 <div className="flex justify-center">
-                    {!testing && results.length === 0 && (
+                    {!running && results.length > 0 && results[0].status === 'PENDING' && (
                         <Button onClick={runTest}>
                             <RefreshCw className="mr-2 h-4 w-4" />
                             Run Connectivity Test
                         </Button>
                     )}
 
-                    {testing && (
+                    {running && (
                         <Button disabled>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             Testing...
                         </Button>
                     )}
 
-                    {!testing && results.length > 0 && (
+                    {!running && results.length > 0 && results[0].status !== 'PENDING' && (
                         <Button variant="outline" onClick={runTest}>
                             <RefreshCw className="mr-2 h-4 w-4" />
                             Test Again
@@ -150,13 +139,13 @@ export function CensorshipCheck() {
                     </div>
                 )}
 
-                {results.some(r => r.status === 'BLOCKED') && !testing && (
+                {results.some(r => r.status === 'BLOCKED') && !running && (
                     <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-sm text-red-600 dark:text-red-400">
                         ⚠️ Some sites are blocked. Your VPN might not be bypassing the DPI fully. Try switching protocols (e.g., to V2Ray or Shadowsocks).
                     </div>
                 )}
 
-                {results.every(r => r.status === 'ACCESSIBLE') && results.length > 0 && !testing && (
+                {results.every(r => r.status === 'ACCESSIBLE') && results.length > 0 && !running && results[0].status !== 'PENDING' && (
                     <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg text-sm text-green-600 dark:text-green-400">
                         ✅ All sites accessible! Your VPN is successfully bypassing censorship.
                     </div>
