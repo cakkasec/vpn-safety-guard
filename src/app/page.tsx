@@ -55,18 +55,12 @@ export default function Home() {
           {/* ... inside Home component ... */}
 
           <TabsContent value="analyzer" className="animate-in fade-in-50">
-            <div className="grid gap-6 md:grid-cols-2">
-              <VPNKnowledgeBase />
-              <ProtocolAnalyzer />
-            </div>
-          </TabsContent>
-
-          <TabsContent value="analyze" className="space-y-6 animate-in fade-in-50">
             <div className="grid gap-6 md:grid-cols-3">
               <div className="md:col-span-2">
                 <VPNKnowledgeBase />
               </div>
-              <div className="md:col-span-1">
+              <div className="md:col-span-1 space-y-6">
+                <ProtocolAnalyzer />
                 <ReportIssue />
               </div>
             </div>
