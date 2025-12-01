@@ -8,6 +8,7 @@ import { ShieldCheck } from 'lucide-react';
 
 import { VPNKnowledgeBase } from '@/components/VPNKnowledgeBase';
 import { CensorshipCheck } from '@/components/CensorshipCheck';
+import { OONIStatus } from '@/components/OONIStatus';
 
 export default function Home() {
   return (
@@ -34,13 +35,18 @@ export default function Home() {
 
           {/* ... inside Home component ... */}
 
+          {/* ... inside Home component ... */}
+
           <TabsContent value="dashboard" className="space-y-6 animate-in fade-in-50">
             <div className="grid gap-6 md:grid-cols-2">
               <div className="md:col-span-2">
                 <LeakTest />
               </div>
-              <div className="md:col-span-2">
+              <div className="md:col-span-1">
                 <CensorshipCheck />
+              </div>
+              <div className="md:col-span-1">
+                <OONIStatus />
               </div>
             </div>
           </TabsContent>
