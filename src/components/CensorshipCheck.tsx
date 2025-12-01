@@ -96,7 +96,7 @@ export function CensorshipCheck() {
             </CardHeader>
             <CardContent className="space-y-6">
                 <div className="flex justify-center">
-                    {!running && results.length > 0 && results[0].status === 'PENDING' && (
+                    {!running && (results.length === 0 || results[0].status === 'PENDING') && (
                         <Button onClick={runTest}>
                             <RefreshCw className="mr-2 h-4 w-4" />
                             Run Connectivity Test
