@@ -6,7 +6,6 @@ import { SafetyGuide } from '@/components/SafetyGuide';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ShieldCheck } from 'lucide-react';
 
-import { LogoutButton } from '@/components/LogoutButton';
 import { VPNKnowledgeBase } from '@/components/VPNKnowledgeBase';
 import { CensorshipCheck } from '@/components/CensorshipCheck';
 
@@ -24,7 +23,6 @@ export default function Home() {
               <p className="text-muted-foreground">Security analysis tool for Myanmar</p>
             </div>
           </div>
-          <LogoutButton />
         </header>
 
         <Tabs defaultValue="dashboard" className="space-y-6">
