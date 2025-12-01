@@ -41,14 +41,12 @@ export function CensorshipCheck() {
     const [running, setRunning] = useState(false);
 
     // Initialize results when component mounts or BLOCKED_SITES changes
-    useEffect(() => {
-        setResults(BLOCKED_SITES.map(s => ({ ...s, status: 'PENDING' })));
-    }, []);
+    // REMOVED: We don't want to show "Checking..." before user clicks run.
 
     const runTest = async () => {
         setRunning(true);
-        // Reset results to 'CHECKING' (visually represented as PENDING/Loader)
-        setResults(prev => prev.map(r => ({ ...r, status: 'PENDING' })));
+        // Initialize/Reset results to 'PENDING'
+        setResults(BLOCKED_SITES.map(s => ({ ...s, status: 'PENDING' })));
 
         const checkSite = async (site: typeof BLOCKED_SITES[0], index: number) => {
             try {
