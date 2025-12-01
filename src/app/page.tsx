@@ -10,6 +10,7 @@ import { VPNKnowledgeBase } from '@/components/VPNKnowledgeBase';
 import { CensorshipCheck } from '@/components/CensorshipCheck';
 import { OONIStatus } from '@/components/OONIStatus';
 import { ReportIssue } from '@/components/ReportIssue';
+import { CommunityDashboard } from '@/components/CommunityDashboard';
 
 export default function Home() {
   return (
@@ -40,6 +41,9 @@ export default function Home() {
 
           <TabsContent value="dashboard" className="space-y-6 animate-in fade-in-50">
             <div className="grid gap-6 md:grid-cols-2">
+              <div className="md:col-span-2">
+                <CommunityDashboard />
+              </div>
               <div className="md:col-span-2">
                 <LeakTest />
               </div>
