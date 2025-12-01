@@ -25,9 +25,9 @@ const BLOCKED_SITES = [
         testImage: 'https://www.youtube.com/favicon.ico'
     },
     {
-        name: 'BBC News',
-        url: 'https://www.bbc.com/news',
-        testImage: 'https://www.bbc.com/favicon.ico'
+        name: 'The Irrawaddy',
+        url: 'https://www.irrawaddy.com/',
+        testImage: 'https://www.irrawaddy.com/favicon.ico'
     },
     {
         name: 'Twitter / X',
