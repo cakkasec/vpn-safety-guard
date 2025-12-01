@@ -89,11 +89,11 @@ export function ReportIssue() {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="WireGuard">WireGuard</SelectItem>
-                                <SelectItem value="OpenVPN">OpenVPN (TCP/UDP)</SelectItem>
-                                <SelectItem value="V2Ray">V2Ray (VMess/VLESS)</SelectItem>
+                                <SelectItem value="OpenVPN (TCP/UDP)">OpenVPN (TCP/UDP)</SelectItem>
+                                <SelectItem value="V2Ray (VMess/VLESS)">V2Ray (VMess/VLESS)</SelectItem>
                                 <SelectItem value="Shadowsocks">Shadowsocks</SelectItem>
                                 <SelectItem value="Psiphon">Psiphon</SelectItem>
-                                <SelectItem value="IKEv2">IKEv2 / IPsec</SelectItem>
+                                <SelectItem value="IKEv2 / IPsec">IKEv2 / IPsec</SelectItem>
                                 <SelectItem value="Other">Other</SelectItem>
                             </SelectContent>
                         </Select>
@@ -132,12 +132,12 @@ export function ReportIssue() {
                                 <SelectValue placeholder="Select ISP" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="MPT">MPT (Mobile/Fiber)</SelectItem>
-                                <SelectItem value="Atom">Atom (Telenor)</SelectItem>
+                                <SelectItem value="MPT (Mobile/Fiber)">MPT (Mobile/Fiber)</SelectItem>
+                                <SelectItem value="Atom (Telenor)">Atom (Telenor)</SelectItem>
                                 <SelectItem value="Ooredoo">Ooredoo</SelectItem>
                                 <SelectItem value="Mytel">Mytel</SelectItem>
                                 <SelectItem value="GlobalNet">GlobalNet</SelectItem>
-                                <SelectItem value="5BB">5BB Broadband</SelectItem>
+                                <SelectItem value="5BB Broadband">5BB Broadband</SelectItem>
                                 <SelectItem value="Unilink">Unilink</SelectItem>
                                 <SelectItem value="Myanmar Net">Myanmar Net</SelectItem>
                                 <SelectItem value="Other">Other</SelectItem>
@@ -153,8 +153,8 @@ export function ReportIssue() {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="Mobile Data">Mobile Data</SelectItem>
-                                <SelectItem value="WiFi / Fiber">WiFi / Fiber</SelectItem>
-                                <SelectItem value="Satellite">Starlink / Satellite</SelectItem>
+                                <SelectItem value="Wifi / Fiber">Wifi / Fiber</SelectItem>
+                                <SelectItem value="Starlink / Satellite">Starlink / Satellite</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
