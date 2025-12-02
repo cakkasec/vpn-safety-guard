@@ -102,7 +102,7 @@ export function LeakTest() {
                                 </div>
                             )}
                             <p className="text-xs text-muted-foreground pt-2 border-t">
-                                If you see a leak while connected to VPN, you should disable WebRTC in your browser settings (e.g., "WebRTC Control" extension in Brave/Firefox).
+                                If you see a leak while connected to VPN, you should disable WebRTC in your browser settings (e.g., "WebRTC Control" extension in Brave/Firefox) or change the WebRTC IP handling policy to <strong>"Disable non-proxied UDP"</strong>.
                             </p>
                         </div>
                     )}
