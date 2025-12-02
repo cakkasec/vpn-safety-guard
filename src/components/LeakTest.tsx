@@ -42,16 +42,16 @@ export function LeakTest() {
                     </CardTitle>
                     <CardDescription>This is how the internet sees you.</CardDescription>
                 </CardHeader>
-                <CardContent className="grid gap-4 md:grid-cols-2">
-                    <div className="space-y-1">
+                <CardContent className="grid gap-4 md:grid-cols-3">
+                    <div className="space-y-1 md:col-span-2">
                         <p className="text-sm font-medium text-muted-foreground">IP Address</p>
-                        <p className="text-2xl font-bold font-mono">{ipInfo?.ip}</p>
+                        <p className="text-2xl font-bold font-mono break-all">{ipInfo?.ip}</p>
                     </div>
-                    <div className="space-y-1">
+                    <div className="space-y-1 md:col-span-1">
                         <p className="text-sm font-medium text-muted-foreground">Location</p>
                         <p className="text-lg">{ipInfo?.city}, {ipInfo?.region}, {ipInfo?.country_name}</p>
                     </div>
-                    <div className="space-y-1 md:col-span-2">
+                    <div className="space-y-1 md:col-span-3">
                         <p className="text-sm font-medium text-muted-foreground">ISP / Organization</p>
                         <p className="text-lg">{ipInfo?.org}</p>
                     </div>
