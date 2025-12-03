@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -13,138 +13,103 @@ interface VPNApp {
     advice: string;
 }
 
-// Knowledge Base Data
-const vpnDatabase: VPNApp[] = [
-    // Safe / Recommended
-    {
-        name: 'Mullvad VPN',
-        risk: 'SAFE',
-        protocol: 'WireGuard / OpenVPN (Bridge)',
-        advice: 'Cyber Guardian says: ✅ Excellent choice! No logs, anonymous account numbers. Very safe.'
-    },
-    {
-        name: 'Proton VPN',
-        risk: 'SAFE',
-        protocol: 'Stealth / WireGuard',
-        advice: 'Cyber Guardian says: ✅ Trusted Swiss privacy. Use the "Stealth" protocol setting to bypass blocking.'
-    },
-    {
-        name: 'Outline',
-        risk: 'SAFE',
-        protocol: 'Shadowsocks',
-        advice: 'Cyber Guardian says: ✅ Highly recommended. You control the server. Very hard for the junta to detect.'
-    },
-    {
-        name: 'Amnezia VPN',
-        risk: 'SAFE',
-        protocol: 'AmneziaWG / X-Ray',
-        advice: 'Cyber Guardian says: ✅ Designed for censorship resistance. Excellent for hosting your own server.'
-    },
-    {
-        name: 'V2Box',
-        risk: 'SAFE',
-        protocol: 'V2Ray Client',
-        advice: 'Cyber Guardian says: ✅ Great client for V2Ray. Safe if you use a good server config (VMess/VLESS).'
-    },
-
-    // Caution / Medium
-    {
-        name: 'ExpressVPN',
-        risk: 'CAUTION',
-        protocol: 'Lightway (Obfuscated)',
-        advice: 'Cyber Guardian says: ⚠️ Good security, but a high-profile target. If it connects, it is safe, but it is often blocked.'
-    },
-    {
-        name: 'Psiphon',
-        risk: 'CAUTION',
-        protocol: 'SSH / Obfuscation',
-        advice: 'Cyber Guardian says: ⚠️ Good for emergencies, but they log some data and it can be slow. Use only if others fail.'
-    },
-    {
-        name: 'Wire',
-        risk: 'CAUTION',
-        protocol: 'WireGuard',
-        advice: 'Cyber Guardian says: ⚠️ WireGuard is fast but easily detected. Use only if you are sure it is not being blocked.'
-    },
-
-    // Unsafe / High Risk (Free/Ad-heavy/Logging)
-    {
-        name: 'Turbo VPN',
-        risk: 'UNSAFE',
-        protocol: 'Unknown / IKEv2',
-        advice: 'Cyber Guardian says: ❌ AVOID. Known for logging user data and showing ads. Not safe for sensitive activities.'
-    },
-    {
-        name: 'Super VPN',
-        risk: 'UNSAFE',
-        protocol: 'Unknown',
-        advice: 'Cyber Guardian says: ❌ DANGEROUS. History of data leaks and malware. Do not use.'
-    },
-    {
-        name: 'Thunder VPN',
-        risk: 'UNSAFE',
-        protocol: 'Unknown',
-        advice: 'Cyber Guardian says: ❌ High Risk. Free VPNs sell your data. Not resistant to DPI.'
-    },
-    {
-        name: 'Hula VPN',
-        risk: 'UNSAFE',
-        protocol: 'Unknown',
-        advice: 'Cyber Guardian says: ❌ Be careful. Free services often log your IP. Use a trusted paid or open-source alternative.'
-    },
-    {
-        name: 'Jump Jump VPN',
-        risk: 'UNSAFE',
-        protocol: 'Unknown',
-        advice: 'Cyber Guardian says: ❌ Unknown security. Likely logs data. Better to use Outline or Proton.'
-    },
-    {
-        name: 'X-VPN',
-        risk: 'UNSAFE',
-        protocol: 'Proprietary',
-        advice: 'Cyber Guardian says: ⚠️ Hit or miss. Free version is not private. Paid version is okay but there are better options.'
-    },
-    {
-        name: 'Now VPN',
-        risk: 'UNSAFE',
-        protocol: 'Unknown',
-        advice: 'Cyber Guardian says: ❌ Generic free VPN. High risk of logging and tracking.'
-    },
-    // Added from Community Database (Google Sheet)
-    {
-        name: 'Secure VPN',
-        risk: 'UNSAFE',
-        protocol: 'Unknown',
-        advice: 'Cyber Guardian says: ❌ High Risk. Contains advertising trackers (Flurry, Google Ads) and logs location data.'
-    },
-    {
-        name: 'VPN Satoshi',
-        risk: 'UNSAFE',
-        protocol: 'Unknown',
-        advice: 'Cyber Guardian says: ❌ DANGEROUS. Reads phone state and installed packages. Contains Facebook and Yandex trackers.'
-    },
-    {
-        name: 'VPN Super Unlimited',
-        risk: 'UNSAFE',
-        protocol: 'Unknown',
-        advice: 'Cyber Guardian says: ❌ AVOID. Contains multiple trackers (Facebook, IronSource). Logs network operator and phone type.'
-    },
-    {
-        name: 'Rabbit VPN',
-        risk: 'UNSAFE',
-        protocol: 'Unknown',
-        advice: 'Cyber Guardian says: ❌ Likely unsafe. Free VPNs usually monetize your data.'
-    },
-    {
-        name: 'Snap VPN',
-        risk: 'UNSAFE',
-        protocol: 'Unknown',
-        advice: 'Cyber Guardian says: ❌ High risk of logging. Contains advertising SDKs.'
-    }
-];
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/1Q9C2Ww8iO_ohpVh2XkcVtwI_3alFXFtZHxDeuj4khzw/export?format=csv&gid=812504312';
 
 export function VPNKnowledgeBase() {
     const [searchTerm, setSearchTerm] = useState('');
+    const [vpnDatabase, setVpnDatabase] = useState<VPNApp[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(CSV_URL);
+                const text = await response.text();
+                const parsed = parseCSV(text);
+                setVpnDatabase(parsed);
+            } catch (error) {
+                console.error('Failed to fetch VPN database', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const parseCSV = (text: string): VPNApp[] => {
+        const lines = text.split('\n').filter(l => l.trim() !== '');
+        const data: VPNApp[] = [];
+
+        // Skip header (start from index 1 usually, but let's be safe and check)
+        // Header row seems to be around line 7 in the raw output, but let's assume standard CSV for now 
+        // and filter out metadata rows if they exist.
+        // Based on curl output:
+        // Line 1-6 are metadata. Line 7 is empty. Line 8 is Header "App Id,App Name..."
+
+        let headerFound = false;
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            if (!headerFound) {
+                if (line.includes('App Id,App Name')) {
+                    headerFound = true;
+                }
+                continue;
+            }
+
+            // Handle CSV parsing (simple split for now, but better to use regex for quoted fields)
+            const cols = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
+            // Clean quotes
+            const cleanCols = cols.map(c => c.replace(/^"|"$/g, '').trim());
+
+            if (cleanCols.length > 5) {
+                const name = cleanCols[1]; // App Name
+                const encrypted = cleanCols[4]; // Encrypted
+                const ipLeak = cleanCols[5]; // IP Leak
+                const dnsLeak = cleanCols[6]; // DNS Leak
+                const webrtcLeak = cleanCols[7]; // WebRTC Leak
+                const protocol = cleanCols[9]; // VPN Tunnel Protocol
+
+                let risk: RiskLevel = 'SAFE';
+                let advice = 'Cyber Guardian says: ✅ Verified Safe. No leaks detected.';
+
+                // Risk Logic
+                const issues = [];
+                if (encrypted !== 'Encrypted') {
+                    risk = 'UNSAFE';
+                    issues.push('Not Encrypted');
+                }
+                if (ipLeak !== 'No Leaks') {
+                    risk = 'UNSAFE';
+                    issues.push('IP Leaks');
+                }
+                if (webrtcLeak !== 'No Leaks' && webrtcLeak !== 'No') {
+                    risk = 'UNSAFE';
+                    issues.push('WebRTC Leaks');
+                }
+                if (dnsLeak !== 'No Leaks' && !dnsLeak.includes('No leak')) {
+                    // Some DNS leaks might be minor, but let's flag them as CAUTION if not already UNSAFE
+                    if (risk === 'SAFE') risk = 'CAUTION';
+                    issues.push('DNS Leaks');
+                }
+
+                if (risk === 'UNSAFE') {
+                    advice = `Cyber Guardian says: ❌ DANGEROUS. Issues: ${issues.join(', ')}. Do not use.`;
+                } else if (risk === 'CAUTION') {
+                    advice = `Cyber Guardian says: ⚠️ CAUTION. Issues: ${issues.join(', ')}. Use with care.`;
+                }
+
+                data.push({
+                    name: name || 'Unknown App',
+                    risk,
+                    protocol: protocol || 'Unknown',
+                    advice
+                });
+            }
+        }
+        return data;
+    };
 
     const filteredVPNs = vpnDatabase.filter(vpn =>
         vpn.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -170,11 +135,16 @@ export function VPNKnowledgeBase() {
                         className="pl-8"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
+                        disabled={loading}
                     />
                 </div>
 
                 <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
-                    {searchTerm && filteredVPNs.length === 0 ? (
+                    {loading ? (
+                        <div className="text-center py-8 text-muted-foreground">
+                            <p>Loading database...</p>
+                        </div>
+                    ) : searchTerm && filteredVPNs.length === 0 ? (
                         <div className="text-center py-8 text-muted-foreground">
                             <AlertTriangle className="h-8 w-8 mx-auto mb-2 text-yellow-500" />
                             <p>Unknown App.</p>
