@@ -157,8 +157,9 @@ export function VPNKnowledgeBase() {
                     <Search className="h-5 w-5" />
                     App Integrity Check
                 </CardTitle>
-                <CardDescription>
-                    Search for your VPN app name to see if it is trusted by the Cyber Guardian.
+                <CardDescription className="space-y-1">
+                    <p>Search for your VPN app name to see if it is trusted by the Cyber Guardian.</p>
+                    <p className="text-xs opacity-80 font-myanmar">သင်လက်ရှိအသုံးပြုနေသော VPN သည် ယုံကြည်စိတ်ချ၍ရမရ သိရှိနိုင်ရန် အမည်ကို English စာဖြင့်ရိုက်၍ရှာဖွေနိုင်ပါသည်။</p>
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
