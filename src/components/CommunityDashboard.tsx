@@ -100,8 +100,9 @@ export function CommunityDashboard() {
                             <AlertTriangle className="h-5 w-5 text-primary" />
                             Community Dashboard
                         </CardTitle>
-                        <CardDescription>
-                            Live censorship status based on user reports.
+                        <CardDescription className="space-y-1">
+                            <p>Real-time VPN blocking status crowdsourced from users across Myanmar. Check which protocols are working in your area.</p>
+                            <p className="text-xs opacity-80 font-myanmar">မြန်မာနိုင်ငံအနှံ့အပြားရှိ သုံးစွဲသူများထံမှ ပေးပို့သော VPN ပိတ်ဆို့မှု အခြေအနေများ။ သင့်ဒေသတွင် မည်သည့် VPN စနစ်များ အသုံးပြု၍ရနိုင်သည်ကို ကြည့်ရှုပါ။</p>
                         </CardDescription>
                     </div>
                     <Button variant="outline" size="sm" onClick={fetchData} disabled={loading}>
