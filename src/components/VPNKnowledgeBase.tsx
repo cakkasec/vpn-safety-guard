@@ -38,43 +38,87 @@ export function VPNKnowledgeBase() {
     }, []);
 
     const parseCSV = (text: string): VPNApp[] => {
-        const lines = text.split('\n').filter(l => l.trim() !== '');
         const data: VPNApp[] = [];
+        let rows: string[][] = [];
+        let currentRow: string[] = [];
+        let currentCell = '';
+        let inQuotes = false;
 
-        // Skip header (start from index 1 usually, but let's be safe and check)
-        // Header row seems to be around line 7 in the raw output, but let's assume standard CSV for now 
-        // and filter out metadata rows if they exist.
-        // Based on curl output:
-        // Line 1-6 are metadata. Line 7 is empty. Line 8 is Header "App Id,App Name..."
+        // Robust CSV State Machine Parser
+        for (let i = 0; i < text.length; i++) {
+            const char = text[i];
+            const nextChar = text[i + 1];
 
+            if (char === '"') {
+                if (inQuotes && nextChar === '"') {
+                    // Escaped quote ("") -> add single quote
+                    currentCell += '"';
+                    i++; // Skip next quote
+                } else {
+                    // Toggle quote state
+                    inQuotes = !inQuotes;
+                }
+            } else if (char === ',' && !inQuotes) {
+                // End of cell
+                currentRow.push(currentCell.trim());
+                currentCell = '';
+            } else if ((char === '\r' || char === '\n') && !inQuotes) {
+                // End of row
+                // Handle \r\n or just \n or \r
+                if (char === '\r' && nextChar === '\n') i++;
+
+                if (currentCell || currentRow.length > 0) {
+                    currentRow.push(currentCell.trim());
+                    rows.push(currentRow);
+                }
+                currentRow = [];
+                currentCell = '';
+            } else {
+                currentCell += char;
+            }
+        }
+        // Push last row if exists
+        if (currentCell || currentRow.length > 0) {
+            currentRow.push(currentCell.trim());
+            rows.push(currentRow);
+        }
+
+        // Process parsed rows
         let headerFound = false;
 
-        for (let i = 0; i < lines.length; i++) {
-            const line = lines[i];
+        for (const cols of rows) {
+            // Check for header row
             if (!headerFound) {
-                if (line.includes('App Id,App Name')) {
+                // Join columns to check for header signature
+                const rowString = cols.join(',');
+                if (rowString.includes('App Id') && rowString.includes('App Name')) {
                     headerFound = true;
                 }
                 continue;
             }
 
-            // Handle CSV parsing (simple split for now, but better to use regex for quoted fields)
-            const cols = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
-            // Clean quotes
-            const cleanCols = cols.map(c => c.replace(/^"|"$/g, '').trim());
+            if (cols.length > 5) {
+                // Clean up any remaining quotes around the values if they exist (though our parser handles most)
+                // The parser above extracts content *inside* quotes but doesn't strip the outer quotes if we didn't add them to currentCell.
+                // Actually, my logic above adds *everything* except the toggling quotes.
+                // Let's refine: The logic above ADDS the quote if it's part of the content.
+                // But standard CSV: "Value" -> Value. 
+                // My logic: char === '"' -> toggles inQuotes. It does NOT add the quote to currentCell.
+                // So currentCell will be clean of enclosing quotes!
 
-            if (cleanCols.length > 5) {
-                const name = cleanCols[1]; // App Name
-                const encrypted = cleanCols[4]; // Encrypted
-                const ipLeak = cleanCols[5]; // IP Leak
-                const dnsLeak = cleanCols[6]; // DNS Leak
-                const webrtcLeak = cleanCols[7]; // WebRTC Leak
-                const protocol = cleanCols[9]; // VPN Tunnel Protocol
+                const name = cols[1];
+                const encrypted = cols[4];
+                const ipLeak = cols[5];
+                const dnsLeak = cols[6];
+                const webrtcLeak = cols[7];
+                const protocol = cols[9];
+
+                // Skip empty or malformed rows
+                if (!name || !encrypted) continue;
 
                 let risk: RiskLevel = 'SAFE';
                 let advice = 'Cyber Guardian says: ✅ Verified Safe. No leaks detected.';
 
-                // Risk Logic
                 const issues = [];
                 if (encrypted !== 'Encrypted') {
                     risk = 'UNSAFE';
@@ -89,7 +133,6 @@ export function VPNKnowledgeBase() {
                     issues.push('WebRTC Leaks');
                 }
                 if (dnsLeak !== 'No Leaks' && !dnsLeak.includes('No leak')) {
-                    // Some DNS leaks might be minor, but let's flag them as CAUTION if not already UNSAFE
                     if (risk === 'SAFE') risk = 'CAUTION';
                     issues.push('DNS Leaks');
                 }
@@ -101,7 +144,7 @@ export function VPNKnowledgeBase() {
                 }
 
                 data.push({
-                    name: name || 'Unknown App',
+                    name: name,
                     risk,
                     protocol: protocol || 'Unknown',
                     advice
