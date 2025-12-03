@@ -15,9 +15,62 @@ interface VPNApp {
 
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/1Q9C2Ww8iO_ohpVh2XkcVtwI_3alFXFtZHxDeuj4khzw/export?format=csv&gid=812504312';
 
+const HARDCODED_VPNS: VPNApp[] = [
+    // Safe / Recommended
+    {
+        name: 'Mullvad VPN',
+        risk: 'SAFE',
+        protocol: 'WireGuard / OpenVPN (Bridge)',
+        advice: 'Cyber Guardian says: ✅ Excellent choice! No logs, anonymous account numbers. Very safe.'
+    },
+    {
+        name: 'Proton VPN',
+        risk: 'SAFE',
+        protocol: 'Stealth / WireGuard',
+        advice: 'Cyber Guardian says: ✅ Trusted Swiss privacy. Use the "Stealth" protocol setting to bypass blocking.'
+    },
+    {
+        name: 'Outline',
+        risk: 'SAFE',
+        protocol: 'Shadowsocks',
+        advice: 'Cyber Guardian says: ✅ Highly recommended. You control the server. Very hard for the junta to detect.'
+    },
+    {
+        name: 'Amnezia VPN',
+        risk: 'SAFE',
+        protocol: 'AmneziaWG / X-Ray',
+        advice: 'Cyber Guardian says: ✅ Designed for censorship resistance. Excellent for hosting your own server.'
+    },
+    {
+        name: 'V2Box',
+        risk: 'SAFE',
+        protocol: 'V2Ray Client',
+        advice: 'Cyber Guardian says: ✅ Great client for V2Ray. Safe if you use a good server config (VMess/VLESS).'
+    },
+    // Caution / Medium
+    {
+        name: 'ExpressVPN',
+        risk: 'CAUTION',
+        protocol: 'Lightway (Obfuscated)',
+        advice: 'Cyber Guardian says: ⚠️ Good security, but a high-profile target. If it connects, it is safe, but it is often blocked.'
+    },
+    {
+        name: 'Psiphon',
+        risk: 'CAUTION',
+        protocol: 'SSH / Obfuscation',
+        advice: 'Cyber Guardian says: ⚠️ Good for emergencies, but they log some data and it can be slow. Use only if others fail.'
+    },
+    {
+        name: 'Wire',
+        risk: 'CAUTION',
+        protocol: 'WireGuard',
+        advice: 'Cyber Guardian says: ⚠️ WireGuard is fast but easily detected. Use only if you are sure it is not being blocked.'
+    }
+];
+
 export function VPNKnowledgeBase() {
     const [searchTerm, setSearchTerm] = useState('');
-    const [vpnDatabase, setVpnDatabase] = useState<VPNApp[]>([]);
+    const [vpnDatabase, setVpnDatabase] = useState<VPNApp[]>(HARDCODED_VPNS);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -26,9 +79,17 @@ export function VPNKnowledgeBase() {
                 const response = await fetch(CSV_URL);
                 const text = await response.text();
                 const parsed = parseCSV(text);
-                setVpnDatabase(parsed);
+
+                // Merge hardcoded with parsed, avoiding duplicates (prefer hardcoded if same name exists, or just append)
+                // Since hardcoded are "Trusted/Known", let's keep them and append the sheet data.
+                // We can filter out sheet data if it matches a hardcoded name to avoid double entries.
+                const hardcodedNames = new Set(HARDCODED_VPNS.map(v => v.name.toLowerCase()));
+                const newEntries = parsed.filter(v => !hardcodedNames.has(v.name.toLowerCase()));
+
+                setVpnDatabase([...HARDCODED_VPNS, ...newEntries]);
             } catch (error) {
                 console.error('Failed to fetch VPN database', error);
+                // Even if fetch fails, we still have hardcoded data
             } finally {
                 setLoading(false);
             }
