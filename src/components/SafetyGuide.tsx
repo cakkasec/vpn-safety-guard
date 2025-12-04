@@ -102,7 +102,7 @@ export function SafetyGuide() {
                         <li><strong>v2rayNG / V2Box</strong>: Best for advanced users using V2Ray.</li>
                         <li><strong>Signal</strong>: For encrypted messaging.</li>
                         <li><strong>Bitwarden</strong>: Secure password manager.</li>
-                        <li><strong>Aegis / Raivo</strong>: 2FA authenticator apps (avoid SMS 2FA).</li>
+                        <li><strong>Aegis / Raivo / Google Authenticator</strong>: 2FA authenticator apps (avoid SMS 2FA).</li>
                     </ul>
                 </CardContent>
             </Card>

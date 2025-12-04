@@ -11,6 +11,7 @@ import { CensorshipCheck } from '@/components/CensorshipCheck';
 import { OONIStatus } from '@/components/OONIStatus';
 import { ReportIssue } from '@/components/ReportIssue';
 import { CommunityDashboard } from '@/components/CommunityDashboard';
+import { VisitorCounter } from '@/components/VisitorCounter';
 
 export default function Home() {
   return (
@@ -26,6 +27,7 @@ export default function Home() {
               <p className="text-muted-foreground">Security analysis tool for Myanmar</p>
             </div>
           </div>
+          <VisitorCounter />
         </header>
 
         <Tabs defaultValue="dashboard" className="space-y-6">
