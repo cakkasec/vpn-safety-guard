@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { AlertTriangle, Eye, Smartphone, Wifi } from 'lucide-react';
+import { AlertTriangle, Eye, Smartphone, Wifi, Shield } from 'lucide-react';
 
 export function SafetyGuide() {
     return (
@@ -101,6 +101,23 @@ export function SafetyGuide() {
                         <li><strong>Orbot (Tor)</strong>: High anonymity, use with Bridges.</li>
                         <li><strong>v2rayNG / V2Box</strong>: Best for advanced users using V2Ray.</li>
                         <li><strong>Signal</strong>: For encrypted messaging.</li>
+                        <li><strong>Bitwarden</strong>: Secure password manager.</li>
+                        <li><strong>Aegis / Raivo</strong>: 2FA authenticator apps (avoid SMS 2FA).</li>
+                    </ul>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Physical Security (Checkpoints)</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <p className="text-sm text-muted-foreground">Police and soldiers often inspect phones at checkpoints. Be prepared:</p>
+                    <ul className="list-disc list-inside space-y-2 text-sm">
+                        <li><strong>Clean Your Phone</strong>: Regularly delete sensitive chat logs (Signal/Telegram) and photos.</li>
+                        <li><strong>Hide Apps</strong>: Use launcher features to hide VPN and secure messaging apps.</li>
+                        <li><strong>Dummy Accounts</strong>: Log into a "clean" Facebook account when traveling.</li>
+                        <li><strong>Log Out</strong>: Log out of sensitive accounts before going out.</li>
                     </ul>
                 </CardContent>
             </Card>

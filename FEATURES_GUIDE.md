@@ -25,6 +25,7 @@
     *   Search for apps like "Secure VPN", "Turbo VPN", or "VPN Satoshi".
     *   Verify the **Risk Level** (Safe, Caution, Unsafe) matches the sheet data.
     *   Check the **Myanmar Translation** for the search instruction.
+    *   *Note: Search for "V2Box" or "Outline" to see trusted tools.*
 
 ### 3. WebRTC Leak Test
 *   **What it does**: Checks if your real IP is leaking through your browser's WebRTC feature.
@@ -43,7 +44,14 @@
     *   **Green (Accessible)**: Good! Your VPN is bypassing the block.
     *   **Red (Blocked)**: Your VPN might be detected or blocked.
 
-### 5. Report VPN Issues
+### 5. OONI Myanmar Status
+*   **What it does**: Shows real-time network measurement data from OONI (Open Observatory of Network Interference).
+*   **Why it matters**: Gives a big-picture view of internet censorship in Myanmar.
+*   **What to test**:
+    *   Check if the numbers (Measurements, Networks) load.
+    *   Click "View Full OONI Report" to see if the link works.
+
+### 6. Report VPN Issues
 *   **What it does**: Allows users to report when a VPN protocol is blocked in their area.
 *   **Why it matters**: Crowdsources data for the Community Dashboard.
 *   **What to test**:
@@ -51,13 +59,14 @@
     *   Fill out the **"Report VPN Issues"** form.
     *   Submit a report and verify it says "Report Submitted".
 
-### 6. Safety Guide (Burmese Content)
+### 7. Safety Guide (Burmese Content)
 *   **What it does**: Provides essential safety tips and recommended tools in English and Burmese.
 *   **Why it matters**: Education is as important as tools.
 *   **What to test**:
     *   Go to the **"Safety Guide"** tab.
     *   Check the **"Spring Security Clinic"** section.
     *   Is the Burmese text readable and accurate?
+    *   **Orbot (Tor)**: Check the recommendation for high anonymity (use with Bridges).
 
 ---
 
@@ -71,6 +80,14 @@ Please ask your friends these questions:
 4.  **Language**: Is the Burmese text in the Safety Guide and Dashboard natural and correct?
 5.  **Bugs**: Did you see any errors or blank screens?
 6.  **Suggestions**: What one feature would make this more useful for you?
+
+### Initial Pilot Feedback (Early Results)
+*   **Ease of Use**: "Serves the purpose."
+*   **Speed**: "Yes."
+*   **Accuracy**: "Yes."
+*   **Language**: "Yes."
+*   **Bugs**: "None so far."
+*   **Suggestions**: "I love the censorship test and would like to know more of it :) + i think a dashboard of (maybe from ooni) blocked services/apps would be nice."
 
 ---
 
