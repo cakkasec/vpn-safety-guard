@@ -50,7 +50,12 @@ export async function POST(req: Request) {
             const fileContent = fs.readFileSync(DATA_FILE, 'utf-8');
             data = JSON.parse(fileContent);
         }
+    } catch (readError) {
+        console.warn('Could not read visitor data (expected in serverless):', readError);
+        // Continue with empty data
+    }
 
+    try {
         // Check if unique
         if (!data.hashes.includes(hash)) {
             data.hashes.push(hash);
@@ -59,12 +64,23 @@ export async function POST(req: Request) {
             // Write back
             // Note: In Vercel serverless, this file write is ephemeral and won't persist permanently.
             // For a real production app, use a database (Postgres, Redis, etc.).
-            fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+            try {
+                // Ensure directory exists
+                const dir = path.dirname(DATA_FILE);
+                if (!fs.existsSync(dir)) {
+                    fs.mkdirSync(dir, { recursive: true });
+                }
+                fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+            } catch (writeError) {
+                console.warn('Could not write visitor data (expected in serverless):', writeError);
+                // Ignore write error, just return the incremented count for this session
+            }
         }
 
         return NextResponse.json({ count: data.count, new: !data.hashes.includes(hash) });
     } catch (error) {
         console.error('Error updating visitor data:', error);
-        return NextResponse.json({ error: 'Failed to track visitor' }, { status: 500 });
+        // Return a safe fallback to prevent client crash
+        return NextResponse.json({ count: 1 }, { status: 200 });
     }
 }

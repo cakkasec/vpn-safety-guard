@@ -9,10 +9,14 @@ export function VisitorCounter() {
             try {
                 // POST to track visit
                 const res = await fetch('/api/visitor-count', { method: 'POST' });
+                if (!res.ok) throw new Error('API failed');
                 const data = await res.json();
-                setCount(data.count);
+                if (typeof data.count === 'number') {
+                    setCount(data.count);
+                }
             } catch (error) {
                 console.error('Failed to track visitor', error);
+                // Fallback to null or 0 if needed, but null hides the component which is safe
             }
         };
 
