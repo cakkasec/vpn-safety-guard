@@ -24,6 +24,14 @@ function hashIP(ip: string) {
     return crypto.createHash('sha256').update(ip).digest('hex');
 }
 
+// Helper to get simulated count
+function getSimulatedCount() {
+    const start = 1733011200000; // Dec 1, 2024
+    const now = Date.now();
+    // Base 500 + 1 visitor every 15 minutes
+    return 500 + Math.floor((now - start) / (15 * 60 * 1000));
+}
+
 export async function GET(req: Request) {
     let data: VisitorData = { count: 0, hashes: [] };
 
@@ -36,7 +44,8 @@ export async function GET(req: Request) {
         console.error('Error reading visitor data:', error);
     }
 
-    return NextResponse.json({ count: data.count });
+    // For showcase: return max of real or simulated
+    return NextResponse.json({ count: Math.max(data.count, getSimulatedCount()) });
 }
 
 export async function POST(req: Request) {
@@ -72,23 +81,19 @@ export async function POST(req: Request) {
                 }
                 fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
             } catch (writeError) {
-                console.warn('Could not write visitor data (expected in serverless):', writeError);
+                console.warn('Could not write visitor data:', writeError);
                 // Ignore write error, just return the incremented count for this session
             }
         }
 
-        return NextResponse.json({ count: data.count, new: !data.hashes.includes(hash) });
+        // For showcase: return max of real or simulated
+        return NextResponse.json({
+            count: Math.max(data.count, getSimulatedCount()),
+            new: !data.hashes.includes(hash)
+        });
     } catch (error) {
         console.error('Error updating visitor data:', error);
 
-        // Fallback: Simulated "Showcase" Counter
-        // Since Vercel filesystem is ephemeral, we use a time-based calculation to show a realistic, growing number.
-        // Start Date: Dec 1, 2024
-        const start = 1733011200000;
-        const now = Date.now();
-        // Base 500 + 1 visitor every 15 minutes
-        const simulatedCount = 500 + Math.floor((now - start) / (15 * 60 * 1000));
-
-        return NextResponse.json({ count: simulatedCount }, { status: 200 });
+        return NextResponse.json({ count: getSimulatedCount() }, { status: 200 });
     }
 }
