@@ -12,6 +12,7 @@ import { OONIStatus } from '@/components/OONIStatus';
 import { ReportIssue } from '@/components/ReportIssue';
 import { CommunityVPNStatus } from '@/components/CommunityVPNStatus';
 import { VisitorCounter } from '@/components/VisitorCounter';
+import { SpringSecurityClinic } from '@/components/SpringSecurityClinic';
 
 export default function Home() {
   return (
@@ -31,10 +32,11 @@ export default function Home() {
         </header>
 
         <Tabs defaultValue="dashboard" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 lg:w-[400px]">
+          <TabsList className="grid w-full grid-cols-4 lg:w-[600px]">
             <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
             <TabsTrigger value="analyzer">Analyzer</TabsTrigger>
             <TabsTrigger value="guide">Safety Guide</TabsTrigger>
+            <TabsTrigger value="clinic">Clinic</TabsTrigger>
           </TabsList>
 
           {/* ... inside Home component ... */}
@@ -84,6 +86,10 @@ export default function Home() {
 
           <TabsContent value="guide" className="animate-in fade-in-50">
             <SafetyGuide />
+          </TabsContent>
+
+          <TabsContent value="clinic" className="animate-in fade-in-50">
+            <SpringSecurityClinic />
           </TabsContent>
         </Tabs>
       </div>
