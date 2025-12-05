@@ -114,8 +114,11 @@ export function CommunityVPNStatus() {
                     <Signal className="h-5 w-5" />
                     Community VPN Status
                 </CardTitle>
-                <CardDescription>
-                    Real-time reports on which VPNs are working by ISP.
+                <CardDescription className="space-y-2">
+                    <p>Real-time reports on which VPNs are working by ISP.</p>
+                    <p className="text-xs opacity-80 font-myanmar leading-relaxed">
+                        သိရှိစေရန် : ယခု စစ်တမ်းနှင့် စာရင်းသည် သုံးစွဲသူများကိုယ်တိုင်ဖြည့်ထားသော စာရင်းဖြစ်ပါတယ်၊ အဓိကအားဖြင့် VPN ချိတ်ဆက်ရမှုအနေအထားကို report ပြုလုပ်နိုင်စေရန်နှင့် VPN ရွေးချယ်သူများ အတွက် ရွေးချယ်ရာတွင် တစ်နည်းတစ်ဖုံ ထောက်ကူပြုစေရန်ရည်ရွယ်သည်။ Form များ ဖြည့်စွက်ရာမှတစ်ဆင့် ရရှိလာတဲ့ အချက်အလက်တွေဟာ အော်ပရေတာ၊ နေထိုင်ရာမြို့နယ် စတာတွေပေါ် မူတည်ပြီး ကွဲပြားနိုင်တာကြောင့် မြေပြင်အခြေအနေကို မထင်ဟပ်တာမျိုး ဖြစ်နိုင်ပါတယ်။
+                    </p>
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
