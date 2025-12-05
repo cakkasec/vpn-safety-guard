@@ -43,17 +43,27 @@ export default function Home() {
 
           <TabsContent value="dashboard" className="space-y-6 animate-in fade-in-50">
             <div className="grid gap-6 md:grid-cols-2">
-              <div className="md:col-span-2">
-                <CommunityDashboard />
-              </div>
+              {/* Top Row: Leak Test (Full Width) */}
               <div className="md:col-span-2">
                 <LeakTest />
               </div>
+
+              {/* Middle Row: Censorship Check & OONI Status (Side by Side) */}
               <div className="md:col-span-1">
                 <CensorshipCheck />
               </div>
               <div className="md:col-span-1">
                 <OONIStatus />
+              </div>
+
+              {/* Middle Row: App Integrity Check (Full Width) */}
+              <div className="md:col-span-2">
+                <VPNKnowledgeBase />
+              </div>
+
+              {/* Bottom Row: Community Dashboard (Full Width) */}
+              <div className="md:col-span-2">
+                <CommunityDashboard />
               </div>
             </div>
           </TabsContent>
