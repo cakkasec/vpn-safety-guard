@@ -26,7 +26,8 @@ function hashIP(ip: string) {
 
 // Helper to get simulated count
 function getSimulatedCount() {
-    const start = 1733011200000; // Dec 1, 2024
+    // Adjusted start date to Dec 1, 2025 to match the current system time (2025)
+    const start = 1764547200000;
     const now = Date.now();
     // Base 500 + 1 visitor every 15 minutes
     return 500 + Math.floor((now - start) / (15 * 60 * 1000));
