@@ -36,7 +36,7 @@ export default function Home() {
             <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
             <TabsTrigger value="analyzer">Analyzer</TabsTrigger>
             <TabsTrigger value="guide">Safety Guide</TabsTrigger>
-            <TabsTrigger value="clinic">Clinic</TabsTrigger>
+            <TabsTrigger value="clinic">Spring Security Clinic</TabsTrigger>
           </TabsList>
 
           {/* ... inside Home component ... */}

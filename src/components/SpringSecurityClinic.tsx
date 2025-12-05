@@ -4,9 +4,9 @@ import { ExternalLink } from 'lucide-react';
 
 export function SpringSecurityClinic() {
     return (
-        <Card className="w-full max-w-3xl mx-auto border-blue-200 dark:border-blue-900 shadow-lg">
-            <CardHeader className="bg-blue-50/50 dark:bg-blue-950/20">
-                <CardTitle className="flex items-center gap-2 text-2xl text-blue-700 dark:text-blue-400">
+        <Card className="w-full max-w-3xl mx-auto shadow-lg">
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-2xl">
                     <div className="h-8 w-8 text-3xl">🏥</div>
                     Spring Security Clinic
                 </CardTitle>
