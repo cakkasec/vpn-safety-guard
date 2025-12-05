@@ -10,7 +10,7 @@ import { VPNKnowledgeBase } from '@/components/VPNKnowledgeBase';
 import { CensorshipCheck } from '@/components/CensorshipCheck';
 import { OONIStatus } from '@/components/OONIStatus';
 import { ReportIssue } from '@/components/ReportIssue';
-import { CommunityDashboard } from '@/components/CommunityDashboard';
+import { CommunityVPNStatus } from '@/components/CommunityVPNStatus';
 import { VisitorCounter } from '@/components/VisitorCounter';
 
 export default function Home() {
@@ -61,9 +61,9 @@ export default function Home() {
                 <VPNKnowledgeBase />
               </div>
 
-              {/* Bottom Row: Community Dashboard (Full Width) */}
+              {/* Bottom Row: Community VPN Status (Full Width) */}
               <div className="md:col-span-2">
-                <CommunityDashboard />
+                <CommunityVPNStatus />
               </div>
             </div>
           </TabsContent>
