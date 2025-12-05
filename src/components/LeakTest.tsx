@@ -55,6 +55,26 @@ export function LeakTest() {
                         <p className="text-sm font-medium text-muted-foreground">ISP / Organization</p>
                         <p className="text-lg">{ipInfo?.org}</p>
                     </div>
+
+                    {/* DNS Section */}
+                    <div className="space-y-1 md:col-span-3 pt-4 border-t">
+                        <div className="flex items-center gap-2 mb-1">
+                            <p className="text-sm font-medium text-muted-foreground">DNS Server</p>
+                            {ipInfo?.dns?.geo.includes('Myanmar') || ipInfo?.dns?.geo.includes('Burma') ? (
+                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                                    <ShieldAlert className="w-3 h-3 mr-1" />
+                                    Leak Detected
+                                </span>
+                            ) : (
+                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                                    <ShieldCheck className="w-3 h-3 mr-1" />
+                                    Secure
+                                </span>
+                            )}
+                        </div>
+                        <p className="text-lg font-mono">{ipInfo?.dns?.ip || 'Detecting...'}</p>
+                        <p className="text-sm text-muted-foreground">{ipInfo?.dns?.geo || 'Unknown Location'}</p>
+                    </div>
                 </CardContent>
             </Card>
 
